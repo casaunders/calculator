@@ -1,0 +1,61 @@
+* {
+  box-sizing: border-box;
+  padding: 2px;
+  margin: 0px;
+  font-family: Arial, sans-serif;
+  font-weight: normal;
+  font-size: larger;
+  color: white;
+}
+
+body {
+  background-color: black;
+}
+
+.cal-grid {
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  grid-template-columns: repeat(3, 120px);
+  grid-template-rows: repeat(7, 120px);
+}
+
+.cal-grid button {
+  cursor: pointer;
+  border: 2px, black;
+  outline: none;
+  background-color: #012169;
+}
+
+.cal-grid button:hover {
+  background-color: #8c8b89;
+}
+
+.console {
+  grid-column: 1/-1;
+  background-color: white;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  padding: 10px;
+  flex-direction: column;
+  border: 5px, black;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
+header img {
+  display: flex;
+  grid-column: 1/-1;
+  width: 25%;
+  margin: 0px;
+}
+
+@font-face {
+  src: url(fonts/Cowboys-AWV6.ttf);
+  font-family: cowboys;
+}
+.name {
+  padding-left: 1.2%;
+  font-family: cowboys;
+}
