@@ -23,7 +23,6 @@ body {
 .cal-grid button {
   cursor: pointer;
   border: 2px, black;
-  outline: none;
   background-color: #012169;
 }
 
@@ -34,19 +33,11 @@ body {
 .console {
   grid-column: 1/-1;
   background-color: white;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-around;
-  padding: 10px;
   flex-direction: column;
   border: 5px, black;
-  word-wrap: break-word;
-  word-break: break-all;
 }
 
 header img {
-  display: flex;
-  grid-column: 1/-1;
   width: 25%;
   margin: 0px;
 }
@@ -55,7 +46,8 @@ header img {
   src: url(fonts/Cowboys-AWV6.ttf);
   font-family: cowboys;
 }
+
 .name {
-  padding-left: 1.2%;
+  padding-left: 15px;
   font-family: cowboys;
 }
