@@ -6,69 +6,146 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+var numberButtons = document.querySelectorAll('[number]');
+var operationButtons = document.querySelectorAll('[operation]');
+var equalsButton = document.querySelector('[equals]');
+var deleteButton = document.querySelector('[delete]');
+var clearButton = document.querySelector('[clear]');
+var previousDisplay = document.querySelector('[previousOperator]');
+var currentDisplay = document.querySelector('[currentOperator]');
+
 var Calculator =
 /*#__PURE__*/
 function () {
-  function Calculator(previousOperandElement, currentOperandElement) {
+  function Calculator(previousDisplay, currentDisplay) {
     _classCallCheck(this, Calculator);
 
-    this.previousOperandElement = previousOperandElement;
-    this.currentOperandElement = currentOperandElement;
+    this.previousDisplay = previousDisplay;
+    this.currentDisplay = currentDisplay;
+    this.clear();
   }
 
   _createClass(Calculator, [{
     key: "clear",
     value: function clear() {
-      this.currentOperand = "";
-      this.previousOperand = "";
+      this.currentOperator = '';
+      this.previousOperator = '';
       this.operation = undefined;
     }
   }, {
     key: "delete",
-    value: function _delete() {}
-  }, {
-    key: "appendSelection",
-    value: function appendSelection(number) {
-      this.currentOperand = this.currentOperand.toString() + number.toString();
+    value: function _delete() {
+      this.currentOperator = this.currentOperator.slice(0, -1);
     }
   }, {
-    key: "selectCalculation",
-    value: function selectCalculation(operation) {
+    key: "displayNumber",
+    value: function displayNumber(number) {
+      if (number === '.' && this.currentOperator.includes('.')) return;
+      this.currentOperator = this.currentOperator + number;
+    }
+  }, {
+    key: "chooseOperator",
+    value: function chooseOperator(operation) {
+      if (this.currentOperator === '') return;
+
+      if (this.previousOperator !== '') {
+        this.compute();
+      }
+
       this.operation = operation;
-      this.previousOperand = this.currentOperand;
-      this.currentOperand = "";
+      this.previousOperator = this.currentOperator;
+      this.currentOperator = '';
     }
   }, {
-    key: "computeOperation",
-    value: function computeOperation() {}
+    key: "compute",
+    value: function compute() {
+      var computation;
+      var previous = parseFloat(this.previousOperator);
+      var current = parseFloat(this.currentOperator);
+
+      switch (this.operation) {
+        case '+':
+          computation = previous + current;
+          break;
+
+        case '-':
+          computation = previous - current;
+          break;
+
+        case '*':
+          computation = previous * current;
+          break;
+
+        case '÷':
+          computation = previous / current;
+          break;
+
+        default:
+          return;
+      }
+
+      this.currentOperator = computation;
+      this.operation = undefined;
+      this.previousOperator = '';
+    }
   }, {
-    key: "refreshConsole",
-    value: function refreshConsole() {
-      this.currentOperandElement.innerText = this.currentOperand;
-      this.previousOperandElement.innerText = this.previousOperator;
+    key: "getDisplayNumber",
+    value: function getDisplayNumber(number) {
+      var stringNumber = number.toString();
+      var integerNumber = parseFloat(stringNumber.split('.')[0]);
+      var floatNumber = stringNumber.split('.')[1];
+      var integerDisplay;
+
+      if (isNaN(integerNumber)) {
+        integerDisplay = '';
+      } else {
+        integerDisplay = integerNumber;
+      }
+
+      if (floatNumber != null) {
+        return "".concat(integerDisplay, ".").concat(floatNumber);
+      } else {
+        return integerDisplay;
+      }
+    }
+  }, {
+    key: "updateDisplay",
+    value: function updateDisplay() {
+      this.currentDisplay.innerText = this.getDisplayNumber(this.currentOperator);
+
+      if (this.operation != null) {
+        this.previousDisplay.innerHTML = "".concat(this.getDisplayNumber(this.previousOperator), " ").concat(this.operation);
+      } else {
+        this.previousDisplay.innerHTML = '';
+      }
     }
   }]);
 
   return Calculator;
 }();
 
-var numberButton = document.querySelectorAll("[number]");
-var calculateButton = document.querySelectorAll("[calculate]");
-var clearButton = document.querySelector("[clear]");
-var deleteButton = document.querySelector("[delete]");
-var equalsButton = document.querySelector("[equals]");
-var previousOperandElement = document.querySelector("[dataPreviousOperand]");
-var currentOperandElement = document.querySelector("[dataCurrentOperand]");
-var calculator = new Calculator(secOperator, primeOperator);
-numberButton.forEach(function (button) {
-  button.addEventListener("click", function () {
-    calculator.appendSelection(button.innerText);
-    calculator.refreshConsole();
+var calculator = new Calculator(previousDisplay, currentDisplay);
+numberButtons.forEach(function (button) {
+  button.addEventListener('click', function () {
+    calculator.displayNumber(button.innerHTML);
+    calculator.updateDisplay();
   });
 });
-calculateButton.forEach(function (button) {
-  button.addEventListener("click", function () {
-    calculator.selectCalculation(button.innerText);
-    calculator.refreshConsole();
+operationButtons.forEach(function (button) {
+  button.addEventListener('click', function () {
+    calculator.chooseOperator(button.innerHTML);
+    calculator.updateDisplay();
   });
+});
+equalsButton.addEventListener('click', function (button) {
+  calculator.compute();
+  calculator.updateDisplay();
+});
+clearButton.addEventListener('click', function (button) {
+  calculator.clear();
+  calculator.updateDisplay();
+});
+deleteButton.addEventListener('click', function (button) {
+  calculator["delete"]();
+  calculator.updateDisplay();
 });

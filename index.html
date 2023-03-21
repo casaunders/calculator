@@ -14,11 +14,11 @@
         alt="logo"
       />
     </header>
-    <p class="name">Calculator</p>
-    <section class="calcgrid">
-      <div operator class="operator">
-        <div secOp class="previousOperand"></div>
-        <div priOp class="currentOperand"></div>
+    <p class="calcBanner">Calculator</p>
+    <div class="calcGrid">
+      <div class="operator">
+        <div previousOperator class="previousOperator"></div>
+        <div currentOperator class="currentOperator"></div>
       </div>
       <button clear>AC</button>
       <button delete>DEL</button>
@@ -33,13 +33,12 @@
       <button number>8</button>
       <button number>9</button>
       <button number>0</button>
-      <button calculate>+</button>
-      <button calculate>-</button>
-      <button calculate>x</button>
-      <button calculate>÷</button>
+      <button operation>+</button>
+      <button operation>-</button>
+      <button operation>÷</button>
+      <button operation>*</button>
       <button equals>=</button>
-    </section>
-
-    <script src="script.js"></script>
+    </div>
+    <script src="script.js" defer></script>
   </body>
 </html>
